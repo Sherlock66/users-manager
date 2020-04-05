@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthentificationService } from 'src/app/services/authentification.service';
 import { TokenService } from 'src/app/services/token.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoginRegisterService } from 'src/app/services/login-register.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   public error = null;
 
   constructor(
-    private authentification: AuthentificationService, 
+    private loginRegister: LoginRegisterService, 
     private token: TokenService,
     private router : Router,
     private auth : AuthService
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    this.authentification.login(this.form).subscribe(
+    this.loginRegister.login(this.form).subscribe(
       data =>this.handleResponse(data),
       error => this.handleError(error)
     );

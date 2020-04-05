@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthentificationService } from 'src/app/services/authentification.service';
+import { LoginRegisterService } from 'src/app/services/login-register.service';
 import { Router } from '@angular/router';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -16,18 +16,18 @@ export class RegisterComponent implements OnInit {
     password_confirmation : null,
   }
   public error = [];
-
+  loggedIn : boolean;
   constructor(
-    private authentification: AuthentificationService,
+    private loginRegister: LoginRegisterService,
     private token : TokenService,
-    private router : Router
+    private router : Router,
   ) { }
 
   ngOnInit(): void {
   }
 
   onSubmit(){
-    this.authentification.register(this.form).subscribe(
+    this.loginRegister.register(this.form).subscribe(
       data => this.handleResponse(data),
       error => this.handleError(error)
     );
@@ -40,4 +40,5 @@ export class RegisterComponent implements OnInit {
     this.error = error.error.errors;
     
   }
+
 }

@@ -10,7 +10,7 @@ import { AfterLoginService } from './services/after-login.service';
 import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
-  { path:'login', component: LoginComponent, canActivate: [BeforeLoginService]},
+  { path:'login', component: LoginComponent},
   { path:'register', component: RegisterComponent, canActivate: [BeforeLoginService]},
   { path:'profile', component: ProfileComponent, canActivate: [AfterLoginService]},
   { path:'request-password-reset', component: RequestResetComponent },
