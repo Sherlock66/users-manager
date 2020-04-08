@@ -1,1 +1,123 @@
-<p>users works!</p>
+<!--<h1>Hi {{currentUser.name}}!</h1>-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 margin -tb">
+            <div class="pull-left">
+                <h2>Users Management</h2>
+            </div>
+            <div class="pull-right">
+                <a class="btn btn-success" href="#"> Create a new user</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <td>Roles</td>
+                <th>Actions</th>
+            </tr>
+            <tr app-user="user" *ngFor ="let user of users" [user-data]="user" (onDeleteUser) ="onDeleteUser($event)"  (onSelectUser) ="onSelectUser($event)">
+            </tr>
+            <!--  <tr>
+                <th>No</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th width="280px">Action</th>
+            </tr>
+            <tr *ngFor="let user of users">
+                <td>
+                </td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td></td>
+                <td>
+                    <button class="btn btn-info" >Show</button>&nbsp;
+                    <button class="btn btn-primary" >Edit</button>&nbsp;
+                    <button class="btn btn-danger "(click)="deleteUser()" > Delete</button>
+                </td>
+            </tr> 
+        </table>
+    </div>
+</div> -->
+    
+<!-- (click)="deleteUser(user.id)  (click)="deleteUser()""
+    <table class="table table-bordered">
+        <tr>
+          <th>No</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Roles</th>
+          <th width="280px">Action</th>
+        </tr>
+        <tr app-user="user" *ngFor ="let user of users" [user-data] = "user" (onDeleteUser) = "onDeleteUser($event)"  (onSelectUser) = "onSelectUser($event)">
+        </tr>
+        @foreach ($data as $key => $user)
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    @if(!empty($user->getRoleNames()))
+                        @foreach($user->getRoleNames() as $v)
+                            <label class="badge badge-success">{{ $v }}</label>
+                        @endforeach
+                    @endif
+                </td>
+                <td>
+                    <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
+                    <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
+                    @if ($user->id != 1)
+                        {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                    @endif
+                   
+                </td>
+            </tr>
+    </table>
+<h1>
+    All users
+</h1>
+  
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+        <p>{{ $message }}</p>
+        </div>
+    @endif
+    <table class="table table-bordered">
+        <tr>
+          <th>No</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Roles</th>
+          <th width="280px">Action</th>
+        </tr>
+        @foreach ($data as $key => $user)
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    @if(!empty($user->getRoleNames()))
+                        @foreach($user->getRoleNames() as $v)
+                            <label class="badge badge-success">{{ $v }}</label>
+                        @endforeach
+                    @endif
+                </td>
+                <td>
+                    <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
+                    <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
+                    @if ($user->id != 1)
+                        {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                    @endif
+                   
+                </td>
+            </tr>
+    </table>
+    {!! $data->render() !!} 
+ -->

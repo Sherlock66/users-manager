@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
-
+use Spatie\Permission\Models\Permission;
 use App\User;
-
+use Spatie\Permission\Models\Role;
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -26,7 +26,13 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('armel'),
             'created_at' => $now,
             'updated_at' => $now
+
         ];
         $user = User::create($credentialAdmin); //we create the admin user
+    
+        $role = Role::create(['name' => 'Admin']); // we create the role of admin
+        $permissions = Permission::pluck('id','id')->all();
+        $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
     }
 }
