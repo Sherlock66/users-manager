@@ -33,10 +33,10 @@ export class UserComponent implements OnInit {
   deleteUser() {
     this.onDeleteUser.emit(this.user);
   }
-  // updateUser() {
-  //   this.route.navigate(['users', this.user.id, 'edit']);
-  //   this.onSelectUser.emit(this.user);
-  // }
+  updateUser() {
+    this.route.navigate(['users', this.user.id, 'edit']);
+    this.onSelectUser.emit(this.user);
+  }
 
   showUserDetail() {
     this.route.navigate(['users', this.user.id]);

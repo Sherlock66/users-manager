@@ -79,6 +79,12 @@ export class UsersComponent implements OnInit {
         }
       );
     }
+    this.service.getUsers().subscribe(
+      (response) => {
+        this.users = response['data'];
+        this.roles = response['roles'];
+      }
+    );
   }
 
   onSelectUser(user: User) {

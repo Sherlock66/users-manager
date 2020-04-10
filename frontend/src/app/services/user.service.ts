@@ -50,12 +50,18 @@ export class UserService {
     return this.http.post(this.APIURL + '?token=' + this.auth.getToken(), user);
   }
 
-  getUser(user) {
-    const data = {_method: 'GET'};
-    return this.http.get(this.APIURL + '/' + user.id,{
+  // getUser(user) {
+  //   const data = {_method: 'GET'};
+  //   return this.http.get(this.APIURL + '/' + user.id + '?token=' + this.auth.getToken(),{
+  //     headers: this.getAuthHeader()
+  //   });
+  // }
+  getUser(id: number) {
+    return this.http.get(this.APIURL + '/' + id, {
       headers: this.getAuthHeader()
     });
   }
+
 
   deleteUser(user) {
     const data = {_method: 'DELETE'};
