@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
 import { UserInterface } from '../interfaces/user';
-
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,7 @@ export class UserService {
   id = 0;
   name = '';
   email = '';
+  
   private APIURL = 'http://localhost:8000/api/users';
   token : TokenService;
 
@@ -27,15 +30,29 @@ export class UserService {
   );
     return headers;
   }
-
-  getUsers() {
+   getUsers() : Observable<any> {
     return this.http.get(this.APIURL + '?token=' + this.auth.getToken(), {
       headers: this.getAuthHeader()
-    });
+    }).pipe(
+      map(res => res)
+    );
   }
 
-  getUser(id: number) {
-    return this.http.get(this.APIURL + '/' + id, {
+  // getUsers() {
+  //   return this.http.get(this.APIURL + '?token=' + this.auth.getToken(), {
+  //     headers: this.getAuthHeader()
+  //   });
+  // }
+
+
+  
+  createUser(user: UserInterface) {
+    return this.http.post(this.APIURL + '?token=' + this.auth.getToken(), user);
+  }
+
+  getUser(user) {
+    const data = {_method: 'GET'};
+    return this.http.get(this.APIURL + '/' + user.id,{
       headers: this.getAuthHeader()
     });
   }
@@ -52,9 +69,5 @@ export class UserService {
     return this.http.post(this.APIURL + '/' + user.id, user, {
       headers: this.getAuthHeader()
     });
-  }
-
-  createUser(user: UserInterface) {
-    return this.http.post(this.APIURL, user);
   }
 }

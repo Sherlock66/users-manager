@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="card">
+		<div class="card-header bg-primary">Comment</div>
+		<div class="card-body ">
+			<div>
+				<h3>Contact:</h3>
+				<ul class="list-group">
+					<li class="list-group-item">Nom : <strong> {{infos.nom}} </strong></li>
+					<li class="list-group-item">Email : <strong> {{infos.email}} </strong></li>
+					<li class="list-group-item">Téléphone : <strong> {{infos.tel}} </strong></li>
+				</ul>
+			</div>
+			<div>
+                <form #f="ngForm" (ngSubmit)="onAddCommentaire(f.value)"><!-- pour recuperer et transmettre toute les valeur de mon formulaire -->
+                    <div class="form-group">
+                            <label class="control-label" for="message">Message:</label>
+                            <input class="form-control" size ="20px" type="text" name="message" [(ngModel)]="commentaire.message"> <!-- two way binding -->
+                            <span class="badge"><button type="submit" class="btn btn-info" [disabled] ="!f.valid">Add Comment</button><!-- property binding --></span>
+                    </div>
+                </form>
+			</div>
+           <pre> </pre>
+             <div>
+              </div>
+            <div>
+                <h3>Commentaires:</h3>
+                <label class="list-group-item" *ngFor="let c of comments">
+                    <strong>{{c.message}}</strong> 
+                    <span class="badge badge-success">{{c.date|date:'dd/MM/yyyy:HH:mn'}}</span>
+                </label>
+		    </div>
+	    </div>
+    </div>
+</div>
+

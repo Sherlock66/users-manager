@@ -6,7 +6,8 @@
                 <h2>Users Management</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" href="#"> Create a new user</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create a new user</button>
+                <a type="button" href="#" (click)="refresh($event)"  class="btn btn-success">refresh</a>
             </div>
         </div>
     </div>
@@ -18,106 +19,67 @@
                 <td>Roles</td>
                 <th>Actions</th>
             </tr>
-            <tr app-user="user" *ngFor ="let user of users" [user-data]="user" (onDeleteUser) ="onDeleteUser($event)"  (onSelectUser) ="onSelectUser($event)">
+            <tr app-user="user" *ngFor ="let user of users.data" [user-data]="user" (onDeleteUser) ="onDeleteUser($event)"  (onSelectUser) ="onSelectUser($event)">
+                
             </tr>
-            <!--  <tr>
-                <th>No</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th width="280px">Action</th>
-            </tr>
-            <tr *ngFor="let user of users">
-                <td>
-                </td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td></td>
-                <td>
-                    <button class="btn btn-info" >Show</button>&nbsp;
-                    <button class="btn btn-primary" >Edit</button>&nbsp;
-                    <button class="btn btn-danger "(click)="deleteUser()" > Delete</button>
-                </td>
-            </tr> 
         </table>
     </div>
-</div> -->
-    
-<!-- (click)="deleteUser(user.id)  (click)="deleteUser()""
-    <table class="table table-bordered">
-        <tr>
-          <th>No</th>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Roles</th>
-          <th width="280px">Action</th>
-        </tr>
-        <tr app-user="user" *ngFor ="let user of users" [user-data] = "user" (onDeleteUser) = "onDeleteUser($event)"  (onSelectUser) = "onSelectUser($event)">
-        </tr>
-        @foreach ($data as $key => $user)
-            <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    @if(!empty($user->getRoleNames()))
-                        @foreach($user->getRoleNames() as $v)
-                            <label class="badge badge-success">{{ $v }}</label>
-                        @endforeach
-                    @endif
-                </td>
-                <td>
-                    <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
-                    @if ($user->id != 1)
-                        {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
-                    @endif
-                   
-                </td>
-            </tr>
-    </table>
-<h1>
-    All users
-</h1>
-  
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-        <p>{{ $message }}</p>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New User or Update</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form #registerForm=ngForm (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>Email:</strong>
+                                    <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email" [(ngModel)]="user.email" required>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>Name:</strong>
+                                    <input type="name" name="name" class="form-control" id="inputEmail3" placeholder=" User Name" [(ngModel)]="user.name" required>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>Password:</strong>
+                                    <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password" [(ngModel)]="user.password" required>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>Confirm Password:</strong>
+                                    <input type="password" name="password_confirmation" class="form-control" id="inputPassword3" placeholder="Password confirmation" [(ngModel)]="user.password_confirmation" required>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>Role:</strong>
+                                    <select class="form-control" type="multiple" *ngFor ="let role of roles | keyvalue">
+                                        
+                                            <option>{{ role.value }}</option>
+                                       
+                                    </select>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-10 offset-2">
+                                        <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-    @endif
-    <table class="table table-bordered">
-        <tr>
-          <th>No</th>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Roles</th>
-          <th width="280px">Action</th>
-        </tr>
-        @foreach ($data as $key => $user)
-            <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    @if(!empty($user->getRoleNames()))
-                        @foreach($user->getRoleNames() as $v)
-                            <label class="badge badge-success">{{ $v }}</label>
-                        @endforeach
-                    @endif
-                </td>
-                <td>
-                    <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
-                    @if ($user->id != 1)
-                        {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
-                    @endif
-                   
-                </td>
-            </tr>
-    </table>
-    {!! $data->render() !!} 
- -->
+    </div>
+</div>

@@ -8,7 +8,7 @@ use App\User;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
-
+use App\Http\Requests\RegisterRequest;
 class UserController extends Controller
 {
     /**
@@ -18,9 +18,13 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // return response()->json($users)
+        
         $data = User::orderBy('id','DESC')->paginate(5);
-        return response()->json($data);
+        $roles = Role::pluck('name','name')->all();
+
+        return response()->json(["data" => $data, "roles" => $roles]);
+        // return response()->json($data);
+        
         
         // return view('users.index',compact('data'))
         //     ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -34,8 +38,9 @@ class UserController extends Controller
     public function create()
     {
         // /create a new User
-        // $roles = Role::pluck('name','name')->all();
-        // return view('users.create', compact('roles'));
+        $roles = Role::pluck('name','name')->all();
+        //return view('users.create', compact('roles'));
+        return response()->json($roles);
     }
 
     /**
@@ -44,37 +49,44 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        //function save the new user with role
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
-        ]);
-        $input = $request->all(); //on recupere tout les champ
-        $input['password'] = Hash::make($input['password']); // on crypte le champ paswword
-        $user = User::find($id);
-        $user->update($input); // if the user exists, we update it else we create it
-        
-        DB::table('model_has_roles')->where('model_id',$id)->delete(); //we delete the rule we enter the same rule
-        $user->assignRole($request->input('roles')); // and we assign rule to user
+        User::create($request->all());
+        // $roles = Role::pluck('name','name')->all();
+        // return response()->json($roles);
 
-        return redirect()->route('users.index')
-                            ->with('success', 'Utilisateur mise à jour avec succes');
+        // $roles = Role::pluck('name','name')->all();
+        //  function save the new user with role
+        // $this->validate($request, [
+        //     'email' => 'required|email|unique:users,email',
+        //     'name' => 'required',
+        //     'password' => 'required|same:confirm-password',
+            
+        // ]);
+        // $input = $request->all(); //on recupere tout les champ
+        // $input['password'] = Hash::make($input['password']); // on crypte le champ paswword
+        // $user = User::find($id);
+        // $user->update($input); // if the user exists, we update it else we create it
+        
+        // DB::table('model_has_roles')->where('model_id',$id)->delete(); //we delete the rule we enter the same rule
+        // $user->assignRole($request->input('roles')); // and we assign rule to user
+        
+        return response()->setStatusCode(200);
+        // return redirect()->route('users.index')
+                            // ->with('success', 'Utilisateur mise à jour avec succes');
         
     }
 
     /**
      * Display the specified resource.
-     *
+     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return response()->json($user);
     }
 
     /**
@@ -110,7 +122,8 @@ class UserController extends Controller
     {
         
         User::find($id)->delete();
-        return redirect()->route('users.index')
-                             ->with('succcess',' User has been deleted successful');
+        return response()->json(null, 204);
+        // return redirect()->route('users.index')
+        //                      ->with('succcess',' User has been deleted successful');
     }
 }
